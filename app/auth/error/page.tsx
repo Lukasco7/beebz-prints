@@ -1,33 +1,21 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Suspense } from "react";
 
-async function ErrorContent({
-  searchParams,
-}: {
-  searchParams: Promise<{ error: string }>;
-}) {
-  const params = await searchParams;
-
+async function ErrorContent() {
   return (
-    <>
-      {params?.error ? (
-        <p className="text-sm text-muted-foreground">
-          Code error: {params.error}
-        </p>
-      ) : (
-        <p className="text-sm text-muted-foreground">
-          An unspecified error occurred.
-        </p>
-      )}
-    </>
+    <p className="text-sm text-muted-foreground">
+      We couldn&apos;t complete the authentication request. The link may have
+      expired or already been used. Please request a new link and try again.
+    </p>
   );
 }
 
-export default function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ error: string }>;
-}) {
+export default function Page() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -38,9 +26,10 @@ export default function Page({
                 Sorry, something went wrong.
               </CardTitle>
             </CardHeader>
+
             <CardContent>
               <Suspense>
-                <ErrorContent searchParams={searchParams} />
+                <ErrorContent />
               </Suspense>
             </CardContent>
           </Card>

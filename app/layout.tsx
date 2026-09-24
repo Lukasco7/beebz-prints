@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -9,15 +7,21 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
-};
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  display: "swap",
-  subsets: ["latin"],
-});
+  title: {
+    default: "BEEBZ PRINTS",
+    template: "%s | BEEBZ PRINTS",
+  },
+
+  description:
+    "Professional printing and creative branding services for businesses, organizations, and individuals.",
+
+  icons: {
+    icon: "/api/favicon",
+    shortcut: "/api/favicon",
+    apple: "/api/favicon",
+  },
+};
 
 export default function RootLayout({
   children,
@@ -25,17 +29,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.className} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-      </body>
+    <html lang="en">
+      <head>
+        <link rel="icon" href="/api/favicon" />
+        <link rel="shortcut icon" href="/api/favicon" />
+        <link rel="apple-touch-icon" href="/api/favicon" />
+      </head>
+
+      <body>{children}</body>
     </html>
   );
 }

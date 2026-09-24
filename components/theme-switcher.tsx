@@ -18,6 +18,9 @@ const ThemeSwitcher = () => {
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
+    // This state update intentionally waits until client mount to avoid
+    // rendering theme-dependent UI during server rendering.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
