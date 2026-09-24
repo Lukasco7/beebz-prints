@@ -1,8 +1,24 @@
 import type { MetadataRoute } from "next";
+import { createClient } from "@/lib/supabase/server";
 
 const siteUrl = "https://beebz-prints.vercel.app";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const supabase = await createClient();
+
+  const { data: products } = await supabase
+    .from("products")
+    .select("slug")
+    .not("slug", "is", null);
+
+  const productUrls: MetadataRoute.Sitemap =
+    products?.map((product) => ({
+      url: `${siteUrl}/products/${product.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    })) ?? [];
+
   return [
     {
       url: siteUrl,
@@ -22,11 +38,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8,
     },
-    {
-      url: `${siteUrl}/auth/login`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.3,
-    },
+    ...productUrls,
   ];
 }
